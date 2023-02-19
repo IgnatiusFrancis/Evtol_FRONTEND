@@ -5,10 +5,10 @@ import toast from "react-hot-toast";
 import { UserContext } from "../App";
 
 import cookie from "cookiejs";
+import axios from "axios";
 
 const RentEvtol = () => {
   const { state, dispatch } = useContext(UserContext);
-  console.log(`user: ${state}`);
 
   //   const history = useHistory();
   const navigate = useNavigate();
@@ -77,12 +77,6 @@ const RentEvtol = () => {
     }
   };
 
-  const [rentHours, setRentHours] = useState("");
-  const handleInputs = (e) => {
-    let value = e.target.value;
-    setRentHours(value);
-  };
-
   const addToCart = (e) => {
     let currentBike = e.target.id;
     if (
@@ -114,32 +108,6 @@ const RentEvtol = () => {
       formDiv[currentBike].style.display = "block";
       specsDiv[currentBike].style.display = "none";
       bikeDiv[currentBike].style.display = "none";
-    }
-  };
-
-  const proceedToCart = async (e) => {
-    e.preventDefault();
-    let itemId = e.target.id;
-
-    const res = await fetch("/addrentcartocart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        itemId,
-        rentHours,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (res.status === 500 || !data) {
-      window.alert("Something went wrong");
-    } else {
-      window.alert(
-        "Item added. Please click on Go To cart to complete the purchase"
-      );
     }
   };
 
@@ -210,6 +178,55 @@ const RentEvtol = () => {
     }
   };
 
+  const [loadInput, setLoadInput] = useState({
+    name: "",
+    weight: "",
+    code: "",
+    destination: "",
+    image: "",
+  });
+
+  let loadName, loadValue;
+
+  const handleLoadInputs = (e) => {
+    loadName = e.target.name;
+    loadValue = e.target.value;
+
+    setLoadInput({ ...loadInput, [loadName]: loadValue });
+  };
+
+  const submitLoad = async (serialNumber) => {
+    const evtol = {
+      // serialNumber: serialNumber,
+      medications: [
+        {
+          name: loadInput.name,
+          weight: loadInput.weight,
+          code: loadInput.code,
+          destination: loadInput.destination,
+          image: loadInput.image,
+        },
+      ],
+    };
+
+    await axios
+      .post(`http://localhost:4000/evtol/loadevtols/${serialNumber}`, evtol)
+      .then((res) => {
+        if (res.status === 200) {
+          const token = res.data.token;
+
+          cookie.set("token", token);
+          dispatch({ type: "USER", payload: true });
+          navigate("/loadedevtol");
+          toast.success("Evtol Loaded");
+        }
+      })
+      .catch((err) => {
+        toast.error("invalid Credentials");
+        console.log(err.message);
+      });
+  };
+
   return (
     <>
       <header className="header">
@@ -245,6 +262,10 @@ const RentEvtol = () => {
         </div>
       </header>
 
+      {/* const handleSubmit = async (event) => {
+
+      } */}
+
       <div className="rentbikebiked">
         {rentEvtolData.rentData?.map((rentEvtolData, index) => [
           <div className="bikedivRentbike" key={rentEvtolData._id}>
@@ -273,10 +294,8 @@ const RentEvtol = () => {
             <p>Model : {rentEvtolData.model}</p>
             <p>Year : {rentEvtolData.year}</p>
             <p>Color : {rentEvtolData.color}</p>
-            {/* <p>State : {rentEvtolData.state}</p> */}
-            <p>Battery Percentage : {rentEvtolData.rent}</p>
+            <p>Battery Percentage : {rentEvtolData.batteryLevel}</p>
             <p style={{ color: "red" }}>State : {rentEvtolData.state}</p>
-
             <div style={{ display: "flex", gap: "15px" }}>
               <button className="bikedbtn" id={index} onClick={showBike}>
                 show bike
@@ -285,24 +304,28 @@ const RentEvtol = () => {
           </div>,
 
           <div className="formDivRentbike" key={index}>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
               <h3>LOAD MEDICATION</h3>
+
               <br />
               <label htmlFor="lname">Name: </label>
               <input
                 type="text"
                 className="bikedbtn"
                 name="name"
+                value={loadInput.name}
+                onChange={handleLoadInputs}
                 placeholder="Enter Medication Name"
               />
               <br />
               <label htmlFor="lname">Weight: </label>
               <input
-                type="submit"
+                type="text"
                 className="bikedbtn"
                 name="weight"
-                id={rentEvtolData._id}
-                // onClick={proceedToCart}
+                value={loadInput.weight}
+                onChange={handleLoadInputs}
+                placeholder="Enter Weight"
               />
               <br />
               <label htmlFor="lname">Code: </label>
@@ -310,7 +333,18 @@ const RentEvtol = () => {
                 type="text"
                 className="bikedbtn"
                 name="code"
-                placeholder="Enter Code hours"
+                value={loadInput.code}
+                onChange={handleLoadInputs}
+                placeholder="Enter Code"
+              />
+              <label htmlFor="lname">Destination: </label>
+              <input
+                type="text"
+                className="bikedbtn"
+                name="destination"
+                value={loadInput.destination}
+                onChange={handleLoadInputs}
+                placeholder="Enter Destination"
               />
               <br />
               <label htmlFor="lname">Image: </label>
@@ -318,12 +352,28 @@ const RentEvtol = () => {
                 type="file"
                 className="bikedbtn"
                 name="image"
+                onChange={handleLoadInputs}
                 placeholder="Image Upload"
               />
+              {/* <div className="bikedbtn">
+                <input
+                  type="submit"
+                  value="Load Now"
+                  style={{ background: "transparent", color: "white" }}
+                />
+              </div> */}
             </form>
             <button className="bikedbtn" id={index} onClick={showBikeAgain}>
               show bike
             </button>
+            <button
+              className="bikedbtn"
+              id={index}
+              onClick={() => submitLoad(rentEvtolData.serialNumber)}
+            >
+              show
+            </button>
+            <br />
           </div>,
         ])}
       </div>

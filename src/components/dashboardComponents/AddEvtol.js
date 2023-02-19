@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { toast } from "react-hot-toast";
 import { NavLink } from "react-router-dom";
 
 import { AdminContext } from "../../App";
@@ -12,9 +13,8 @@ const AddEvtol = () => {
     model: "",
     year: "",
     color: "",
-    seats: "",
-    price: "",
-    rent: "",
+    weightLimit: "",
+    batteryLevel: "",
   });
 
   let rentName, rentValue;
@@ -39,14 +39,14 @@ const AddEvtol = () => {
     rentData.append("model", rentFile.model);
     rentData.append("year", rentFile.year);
     rentData.append("color", rentFile.color);
-    rentData.append("price", rentFile.price);
-    rentData.append("rent", rentFile.rent);
+    rentData.append("weightLimit", rentFile.weightLimit);
+    rentData.append("batteryLevel", rentFile.batteryLevel);
     rentData.append("myrentfile", rentFile.myrentfile);
 
-    const res = await fetch("http://localhost:4000/evtol/addrentevtols", {
+    await fetch("http://localhost:4000/evtol/addrentevtols", {
       method: "POST",
       body: rentData,
-    });
+    }).then(toast.success("Evtol Registered"));
   };
 
   const Loginbutton = () => {
@@ -100,12 +100,12 @@ const AddEvtol = () => {
               <span className="allLinks_name">Available Rent Evtol</span>
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink className="dashlinks" to="/rentbikesreports">
               <i class="fa-solid fa-sack-dollar"></i>
               <span className="allLinks_name">Rent Evtol Income</span>
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink className="dashlinks" to="/availableusers">
               <i class="fa-solid fa-users"></i>
@@ -132,7 +132,6 @@ const AddEvtol = () => {
 
         <div className="home-content">
           <div className="sales-boxes">
-            {/* Rent File */}
             <div className="recent-sales box">
               <h1 className="heading">
                 <span>Add Evtol For Rent</span>
@@ -201,31 +200,31 @@ const AddEvtol = () => {
                 <br />
 
                 <br />
-                <label htmlFor="lname">Evtol Price: </label>
+                <label htmlFor="lname"> Weight: </label>
                 <input
                   className="selectBtn"
                   style={{ width: "-webkit-fill-available" }}
                   type="text"
-                  name="price"
+                  name="weightLimit"
                   id="price"
-                  value={rentEvtol.price}
+                  value={rentEvtol.weightLimit}
                   onChange={handleRentInputs}
-                  placeholder="Enter bike price"
+                  placeholder="Enter Evtol Weight"
                 />
                 <br />
-                <label htmlFor="lname">Evtol Rent: </label>
+                <label htmlFor="lname"> batteryLevel: </label>
                 <input
                   className="selectBtn"
                   style={{ width: "-webkit-fill-available" }}
                   type="text"
-                  name="rent"
+                  name="batteryLevel"
                   id="rent"
-                  value={rentEvtol.rent}
+                  value={rentEvtol.batteryLevel}
                   onChange={handleRentInputs}
-                  placeholder="Enter rent per hour"
+                  placeholder="Enter batteryLevel"
                 />
                 <br />
-                <label htmlFor="fname">Picture: </label>
+                <label htmlFor="fname">Image: </label>
                 <input
                   type="file"
                   name="myrentfile"

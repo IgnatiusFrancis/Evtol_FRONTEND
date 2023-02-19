@@ -22,7 +22,7 @@ const GetrentEvtol = () => {
 
       const data = await res.json();
       setGetEvtol(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -152,7 +152,7 @@ const GetrentEvtol = () => {
                   <td>{getEvtol.model}</td>
                   <td>{getEvtol.state}</td>
                   <td>{getEvtol.weightLimit}</td>
-                  <td>{getEvtol.batteryCapacity}</td>
+                  <td>{getEvtol.batteryLevel}</td>
                   <td>
                     <button
                       id={getEvtol._id}

@@ -22,6 +22,7 @@ import {
   adminreducer,
 } from "../src/reducer/UseReducerAdmin";
 import { Toaster } from "react-hot-toast";
+import LoadedEvtol from "./components/LoadedEvtol";
 
 export const UserContext = createContext();
 export const AdminContext = createContext();
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/displayallevtol" element={<DisplayAddEvtol />} />
           <Route path="/rentevtol" element={<RentEvtol />} />
+          <Route path="/loadedevtol" element={<LoadedEvtol />} />
         </Routes>
       </UserContext.Provider>
 

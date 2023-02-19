@@ -1,11 +1,15 @@
 import React, { useEffect, useContext } from "react";
 import "../styles/dashboard.css";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useNavigate } from "react-router-dom";
 
 import { AdminContext } from "../App";
+import { toast } from "react-hot-toast";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   const { adminState, dispatchadmin } = useContext(AdminContext);
+  console.log(`user: ${adminState}`);
 
   const Loginbutton = () => {
     if (adminState) {
