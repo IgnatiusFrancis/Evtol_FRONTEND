@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { BsFillEyeFill } from "react-icons/bs";
 import { UserContext } from "../App";
 
 const DisplayAddEvtol = () => {
@@ -45,24 +46,6 @@ const DisplayAddEvtol = () => {
     } catch (error) {
       console.log(error.message);
     }
-    // try {
-    //   const res = await fetch("http://localhost:4000/evtol/displayAllEvtol", {
-    //     method: "GET",
-    //   });
-
-    //   const data = await res.json();
-
-    //   // console.log(data);
-    //   setrentEvtolData(data);
-    //   console.log({ rentEvtolData });
-
-    //   if (!res.status === 200) {
-    //     const error = new Error(res.error);
-    //     throw error;
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   useEffect(() => {
@@ -91,7 +74,7 @@ const DisplayAddEvtol = () => {
       <header className="header">
         <div id="menu-btn" className="fas fa-bars"></div>
         <NavLink className="logo" to="/">
-          <span>Bike</span>Book
+          <span>Evtol</span>Technology
         </NavLink>
 
         <nav className="navbar">
@@ -114,12 +97,18 @@ const DisplayAddEvtol = () => {
 
       <div className="exploreBikesDiv">
         {rentEvtolData.map((rentEvtolData, index) => (
-          <div className="exploreBikesImg" key={rentEvtolData._id}>
+          <div
+            className="exploreBikesImg"
+            key={rentEvtolData._id}
+            style={{ position: "relative" }}
+          >
+            <span className="eye" onClick={handleClick}>
+              <BsFillEyeFill className="icon" />
+            </span>
             <img
               src={`https://evtol-task-api.onrender.com/${rentEvtolData.filePath}`}
               alt="Something is wrong"
               style={{ width: "80%", height: "70%" }}
-              onClick={handleClick}
             />
             <h4>
               <b>{rentEvtolData.brand}</b>

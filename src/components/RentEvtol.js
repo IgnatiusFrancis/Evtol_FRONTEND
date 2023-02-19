@@ -212,25 +212,26 @@ const RentEvtol = () => {
       ],
     };
 
-    await axios
-      .post(
-        `https://evtol-task-api.onrender.com/evtol/loadevtols/${serialNumber}`,
-        evtol
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          const token = res.data.token;
+    try {
+      await axios
+        .post(
+          `https://evtol-task-api.onrender.com/evtol/loadevtols/${serialNumber}`,
+          evtol
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            const token = res.data.token;
 
-          cookie.set("token", token);
-          dispatch({ type: "USER", payload: true });
-          navigate("/loadedevtol");
-          toast.success("Evtol Loaded");
-        }
-      })
-      .catch((err) => {
-        toast.error("invalid Credentials");
-        console.log(err.message);
-      });
+            cookie.set("token", token);
+            dispatch({ type: "USER", payload: true });
+            navigate("/loadedevtol");
+            toast.success("Evtol Loaded");
+          }
+        });
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.msg);
+    }
   };
 
   return (
