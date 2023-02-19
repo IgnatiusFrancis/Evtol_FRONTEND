@@ -36,7 +36,7 @@ const DisplayAddEvtol = () => {
   const exploreRentBike = async () => {
     try {
       await axios
-        .get("http://localhost:4000/evtol/displayAllEvtol")
+        .get("https://evtol-task-api.onrender.com/displayAllEvtol")
         .then((res) => {
           if (res.status === 200) {
             setrentEvtolData(res.data.addEvtol);
