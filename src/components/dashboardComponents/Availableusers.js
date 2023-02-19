@@ -12,7 +12,7 @@ const Availableusers = () => {
   const getallusers = async () => {
     try {
       const res = await fetch(
-        "http://localhost:4000/api/aya/users/getallusers",
+        "https://evtol-task-api.onrender.com/api/aya/users/getallusers",
         {
           method: "GET",
         }
@@ -32,7 +32,9 @@ const Availableusers = () => {
 
   const deleteUser = async (_id) => {
     await axios
-      .delete(`http://localhost:4000/api/aya/users/deleteuser/${_id}`)
+      .delete(
+        `https://evtol-task-api.onrender.com/api/aya/users/deleteuser/${_id}`
+      )
       .then((res) => {
         // fetchData();
         toast.success("Deleted Successfully");

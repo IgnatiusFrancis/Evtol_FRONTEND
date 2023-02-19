@@ -29,9 +29,12 @@ const LoadedEvtol = () => {
   const getLoadedEvtol = async () => {
     const token = cookie.get("token");
     await axios
-      .get("http://localhost:4000/evtol/getRentEvtolData?loaded=true", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(
+        "https://evtol-task-api.onrender.com/evtol/getRentEvtolData?loaded=true",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           setEvtol(res.data.rentData);

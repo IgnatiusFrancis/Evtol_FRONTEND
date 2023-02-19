@@ -22,7 +22,7 @@ const Signup = () => {
     };
 
     await axios
-      .post("http://localhost:4000/api/aya/users/signup", form)
+      .post("https://evtol-task-api.onrender.com/api/aya/users/signup", form)
       .then((res) => {
         console.log(res);
         if (res.status === 201) {

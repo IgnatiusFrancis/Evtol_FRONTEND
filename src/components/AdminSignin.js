@@ -20,7 +20,7 @@ const AdminSignin = () => {
     };
 
     await axios
-      .post("http://localhost:4000/evtol/admin/signinAdmin", form)
+      .post("https://evtol-task-api.onrender.com/evtol/admin/signinAdmin", form)
       .then((res) => {
         if (res.status === 200) {
           const token = res.data.token;

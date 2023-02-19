@@ -43,7 +43,7 @@ const AddEvtol = () => {
     rentData.append("batteryLevel", rentFile.batteryLevel);
     rentData.append("myrentfile", rentFile.myrentfile);
 
-    await fetch("http://localhost:4000/evtol/addrentevtols", {
+    await fetch("https://evtol-task-api.onrender.com/evtol/addrentevtols", {
       method: "POST",
       body: rentData,
     }).then(toast.success("Evtol Registered"));

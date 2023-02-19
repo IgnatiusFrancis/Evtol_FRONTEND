@@ -13,7 +13,7 @@ const GetrentEvtol = () => {
     try {
       const token = cookie.get("token");
       const res = await fetch(
-        "http://localhost:4000/evtol/getAvailableRentEvtol",
+        "https://evtol-task-api.onrender.com/evtol/getAvailableRentEvtol",
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -36,15 +36,18 @@ const GetrentEvtol = () => {
   const deleteUser = (e) => {
     bikeIdFromDashBoard = e.target.id;
 
-    return fetch("http://localhost:4000/deleteRentBikeFromDashboard", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        bikeIdFromDashBoard,
-      }),
-    });
+    return fetch(
+      "https://evtol-task-api.onrender.com/deleteRentBikeFromDashboard",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bikeIdFromDashBoard,
+        }),
+      }
+    );
   };
 
   const Loginbutton = () => {

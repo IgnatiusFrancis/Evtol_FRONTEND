@@ -36,7 +36,7 @@ const DisplayAddEvtol = () => {
   const exploreRentBike = async () => {
     try {
       await axios
-        .get("https://evtol-task-api.onrender.com/displayAllEvtol")
+        .get("https://evtol-task-api.onrender.com/evtol/displayAllEvtol")
         .then((res) => {
           if (res.status === 200) {
             setrentEvtolData(res.data.addEvtol);
@@ -116,7 +116,7 @@ const DisplayAddEvtol = () => {
         {rentEvtolData.map((rentEvtolData, index) => (
           <div className="exploreBikesImg" key={rentEvtolData._id}>
             <img
-              src={`http://localhost:4000/${rentEvtolData.filePath}`}
+              src={`https://evtol-task-api.onrender.com/${rentEvtolData.filePath}`}
               alt="Something is wrong"
               style={{ width: "80%", height: "70%" }}
               onClick={handleClick}

@@ -23,10 +23,13 @@ const RentEvtol = () => {
       }
 
       const token = cookie.get("token");
-      const res = await fetch("http://localhost:4000/evtol/getRentEvtolData", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        "https://evtol-task-api.onrender.com/evtol/getRentEvtolData",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const data = await res.json();
 
@@ -210,7 +213,10 @@ const RentEvtol = () => {
     };
 
     await axios
-      .post(`http://localhost:4000/evtol/loadevtols/${serialNumber}`, evtol)
+      .post(
+        `https://evtol-task-api.onrender.com/evtol/loadevtols/${serialNumber}`,
+        evtol
+      )
       .then((res) => {
         if (res.status === 200) {
           const token = res.data.token;
@@ -270,7 +276,7 @@ const RentEvtol = () => {
         {rentEvtolData.rentData?.map((rentEvtolData, index) => [
           <div className="bikedivRentbike" key={rentEvtolData._id}>
             <img
-              src={`http://localhost:4000/${rentEvtolData.filePath}`}
+              src={`https://evtol-task-api.onrender.com/${rentEvtolData.filePath}`}
               alt=""
               style={{ width: "80%", height: "70%" }}
             />

@@ -20,7 +20,7 @@ const AdminSignUp = () => {
     console.log(form);
 
     await axios
-      .post("http://localhost:4000/evtol/admin/signUpAdmin", form)
+      .post("https://evtol-task-api.onrender.com/evtol/admin/signUpAdmin", form)
       .then((res) => {
         console.log(res);
         if (res.status === 201) {
